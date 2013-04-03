@@ -1,0 +1,45 @@
+{
+    "reloader": true,
+    "debug": true,
+    "environment": "dev",
+    "db": "data/store.db",
+    "server": {
+        "http": {
+            "bind_address": "127.0.0.1",
+            "port": 8000
+        }
+    },
+    "logging": {
+        "version": 1,
+        "formatters": {
+            "http": {
+                "format" : "localhost - - [%(asctime)s] %(process)d %(levelname)s %(message)s",
+                "datefmt": "%Y/%m/%d %H:%M:%S"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class"    : "logging.StreamHandler",
+                "formatter": "http",
+                "level"    : "DEBUG",
+                "stream"   : "ext://sys.stdout"
+            },
+            "ram": {
+                "class"    : "utils.InMemoryHandler",
+                "formatter": "http",
+                "level"    : "WARNING",
+                "limit"    : 200
+            }
+        },
+        "loggers": {
+            "peewee": {
+                "level"   : "WARN",
+                "handlers": ["ram","console"]
+            }
+        },
+        "root": {
+            "level"   : "DEBUG",
+            "handlers": ["ram","console"]
+        }
+    }
+}
