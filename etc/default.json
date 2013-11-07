@@ -3,11 +3,13 @@
     "debug": true,
     "environment": "dev",
     "db": "data/store.db",
-    "server": {
-        "http": {
-            "bind_address": "127.0.0.1",
-            "port": 8000
-        }
+    "http": {
+        "bind_address": "127.0.0.1",
+        "port": 8000
+    },
+    "redis": {
+        "server": "127.0.0.1",
+        "port": 6379
     },
     "logging": {
         "version": 1,
@@ -24,22 +26,24 @@
                 "level"    : "DEBUG",
                 "stream"   : "ext://sys.stdout"
             },
-            "ram": {
-                "class"    : "utils.InMemoryHandler",
+            "pygments-http" : {
+                "class"    : "utils.logkit.PygmentsHandler",
                 "formatter": "http",
-                "level"    : "WARNING",
-                "limit"    : 200
+                "level"    : "DEBUG",
+                "stream"   : "ext://sys.stderr",
+                "syntax"   : "guess"
             }
         },
         "loggers": {
             "peewee": {
-                "level"   : "WARN",
-                "handlers": ["ram","console"]
+                "level"    : "WARN",
+                "handlers" : ["pygments-http"],
+                "propagate": false
             }
         },
         "root": {
             "level"   : "DEBUG",
-            "handlers": ["ram","console"]
+            "handlers": ["pygments-http"]
         }
     }
 }
