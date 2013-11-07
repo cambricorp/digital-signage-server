@@ -1,6 +1,6 @@
 # Cork - Authentication module for tyyhe Bottle web framework
 # Copyright (C) 2013 Federico Ceratto and others, see AUTHORS file.
-# Released under GPLv3+ license, see LICENSE.txt
+# Released under LGPLv3+ license, see LICENSE.txt
 #
 # SQLAlchemy storage backend.
 #
@@ -128,6 +128,9 @@ class SqlAlchemyBackend(base_backend.Backend):
     def __init__(self, db_full_url, users_tname='users', roles_tname='roles',
             pending_reg_tname='register', initialize=False):
 
+        if not sqlalchemy_available:
+            raise RuntimeError("The SQLAlchemy library is not available.")
+
         self._metadata = MetaData()
         if initialize:
             # Create new database if needed.
@@ -138,7 +141,9 @@ class SqlAlchemyBackend(base_backend.Backend):
             except Exception, e:
                 log.info("Failed DB creation: %s" % e)
 
-            self._engine.execute("USE %s" % db_name)
+            # SQLite in-memory database URL: "sqlite://:memory:"
+            if db_name != ':memory:':
+                self._engine.execute("USE %s" % db_name)
 
         else:
             self._engine = create_engine(db_full_url)
@@ -146,11 +151,13 @@ class SqlAlchemyBackend(base_backend.Backend):
 
         self._users = Table(users_tname, self._metadata,
             Column('username', String(128), primary_key=True),
-            Column('role', ForeignKey('roles.role')),
+            Column('role', ForeignKey(roles_tname + '.role')),
             Column('hash', String(256), nullable=False),
             Column('email_addr', String(128)),
             Column('desc', String(128)),
-            Column('creation_date', String(128), nullable=False)
+            Column('creation_date', String(128), nullable=False),
+            Column('last_login', String(128), nullable=False)
+
         )
         self._roles = Table(roles_tname, self._metadata,
             Column('role', String(128), primary_key=True),
@@ -159,7 +166,7 @@ class SqlAlchemyBackend(base_backend.Backend):
         self._pending_reg = Table(pending_reg_tname, self._metadata,
             Column('code', String(128), primary_key=True),
             Column('username', String(128), nullable=False),
-            Column('role', ForeignKey('roles.role')),
+            Column('role', ForeignKey(roles_tname + '.role')),
             Column('hash', String(256), nullable=False),
             Column('email_addr', String(128)),
             Column('desc', String(128)),
@@ -180,7 +187,7 @@ class SqlAlchemyBackend(base_backend.Backend):
 
     def _drop_all_tables(self):
         for table in reversed(self._metadata.sorted_tables):
-            log.info("Dropping table %s" % repr(table))
+            log.info("Dropping table %s" % repr(table.name))
             self._engine.execute(table.delete())
 
     def save_users(self): pass
