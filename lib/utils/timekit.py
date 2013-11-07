@@ -8,28 +8,11 @@ License: MIT (see LICENSE.md for details)
 """
 
 import os, sys, time, math, re, logging
-from markup.feedparser import _parse_date
 import gettext
 gettext.textdomain('date')
 _ = gettext.gettext
 
 log = logging.getLogger()
-
-
-# Embrace and extend Mark's feedparser mechanism
-
-_textmate_date_re = \
-    re.compile('(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})$')
-
-
-def parse_date(date):
-    """Parse a TextMate date (YYYY-MM-DD HH:MM:SS, no time zone, assume it's always localtime)"""
-
-    m = _textmate_date_re.match(date)
-    if not m:
-        return time.mktime(_parse_date(date))
-    return time.mktime(time.localtime(calendar.timegm(time.gmtime(time.mktime(time.strptime(date,
-                       '%Y-%m-%d %H:%M:%S'))))))
 
 
 def iso_time(value=None):

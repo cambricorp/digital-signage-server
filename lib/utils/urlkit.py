@@ -12,13 +12,13 @@ import os, sys, logging
 log = logging.getLogger()
 
 import re, time, gzip, base64
-import socket, urllib, urllib2, httplib, urlparse
+import socket, tempfile, urllib, urllib2, httplib, urlparse
 from StringIO import StringIO
 from xml.dom.minidom import parseString
 from urllib2 import HTTPCookieProcessor, HTTPRedirectHandler, HTTPDefaultErrorHandler, HTTPError
 import cookielib
 from collections import defaultdict
-from utils import tb
+from utils.core import tb
 from config import settings
 from decorators import memoize
 
@@ -205,3 +205,22 @@ def fetch(url, etag = None, last_modified = None, head = False, timeout = None, 
         result['status'] = f.status
     f.close()
     return result
+
+
+def download(url, filename=None, suffix='', user_agent = "Mozilla/5.0"):
+    """Convenience function for downloading a URL directly to the filesystem"""
+
+    opener = urllib.FancyURLopener({}) 
+    opener.version = user_agent
+
+    if not filename:
+        fd, filename = tempfile.mkstemp(suffix)
+        os.close(fd)
+
+    try:
+        opener.retrieve(url, filename)
+        return filename
+    except Exception as e:
+        log.error("Could not download %(url)s: %(e)s" % locals())
+        return None
+
