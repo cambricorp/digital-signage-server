@@ -16,7 +16,7 @@ touch -d '-1 week' /tmp/.limit
 if [ /tmp/.limit -nt /var/cache/apt/pkgcache.bin ]; then
     apt-get -y update
     apt-get -y dist-upgrade
-    apt-get -y install redis-server htop tmux vim rsync python-dev python-setuptools python-pip
+    apt-get -y install redis-server htop tmux vim rsync python-dev python-setuptools python-pip python-pygments
 fi
 rm /tmp/.limit
 END
