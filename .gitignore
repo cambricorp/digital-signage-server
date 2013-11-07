@@ -30,3 +30,6 @@ nosetests.xml
 
 # Translations
 *.mo
+
+# Vagrant
+.vagrant
