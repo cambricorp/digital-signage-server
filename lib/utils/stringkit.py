@@ -3,7 +3,7 @@
 
 """
 Copyright (c) 2012, Rui Carmo
-Description: Utility functions for retrieving process information
+Description: Utility functions for string manipulation
 License: MIT (see LICENSE.md for details)
 """
 
