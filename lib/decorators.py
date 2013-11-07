@@ -4,17 +4,48 @@
 Decorator functions
 
 Created by: Rui Carmo
-License: MIT (see LICENSE for details)
 """
 
 from bottle import request, response, route, abort
-import json, functools
-import time, binascii, hashlib, email.utils
+import time, binascii, hashlib, email.utils, functools
 import logging
- 
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 log = logging.getLogger()
 
 gmt_format_string = "%a, %d %b %Y %H:%M:%S GMT"
+
+
+def redis_cache(redis, prefix='url', ttl=3600):
+    """Cache route results in Redis"""
+
+    def decorator(callback):
+        @functools.wraps(callback)
+        def wrapper(*args, **kwargs):
+            try:
+                item = json.loads(redis.get('url:%s' % request.urlparts.path))
+                body = item['body']
+                for h in item['headers']:
+                    response.set_header(h, item['headers'][h])
+                response.set_header('X-Source', 'Redis')
+            except:
+                body = callback(*args, **kwargs)
+                item = {
+                    'body': body,
+                    'headers': dict(response.headers),
+                    'mtime': int(time.time())
+                }
+                k = '%s:%s' % (prefix, request.urlparts.path)
+                redis.set(k, json.dumps(item))
+                redis.expire(k, ttl)
+            return body
+        return wrapper
+    return decorator
+
 
 def cache_results(timeout):
     """Cache route results for a given period of time"""
@@ -57,7 +88,7 @@ def cache_results(timeout):
                 _times[now] = request.urlparts
 
             expire(now)
-            return body            
+            return body
         return wrapper
     return decorator
 
@@ -69,7 +100,7 @@ def cache_control(seconds = 0):
         @functools.wraps(callback)
         def wrapper(*args, **kwargs):
             expires = int(time.time() + seconds)
-            expires = time.strftime(gmt_format_string, time.gmtime(expires)) 
+            expires = time.strftime(gmt_format_string, time.gmtime(expires))
             response.set_header('Expires', expires)
             if seconds:
                 pragma = 'public'
@@ -110,7 +141,7 @@ def jsonp(callback):
 
         callback_function = request.query.get('callback')
         if callback_function:
-            body = b''.join([callback_function, '(', body, ')'])
+            body = ''.join([callback_function, '(', body, ')'])
             response.content_type = 'text/javascript'
 
         response.set_header('Last-Modified', time.strftime(gmt_format_string, time.gmtime()))
@@ -134,27 +165,34 @@ def memoize(f):
             ret = self[key] = self.f(*key)
             return ret
     return memodict(f)
-    
 
-class cached_method(object):
-    """Memoization decorator for class members"""
-    def __init__(self, func):
-        self.func = func
-        
-    def __get__(self, obj, objtype=None):
-        if obj is None:
-            return self.func
-        return functools.partial(self, obj)
-        
-    def __call__(self, *args, **kwargs):
-        obj = args[0]
-        try:
-            cache = obj.__cache
-        except AttributeError:
-            cache = obj.__cache = {}
-        key = (self.func, args[1:], frozenset(kwargs.items()))
-        try:
-            res = cache[key]
-        except KeyError:
-            res = cache[key] = self.func(*args, **kwargs)
-        return res
+
+def check(**types):
+    """Decorator for parameter checking: @check(a = int, b = bool, c = string.upper)"""
+
+    def decorator(callback):
+        farg, _, _, def_params = inspect.getargspec(callback)
+        if def_params is None: def_params = []
+        farg = farg[:len(farg) - len(def_params)]
+
+        param_info = [(par, ptype, par in farg) for par, ptype in types.iteritems()]
+
+        @functools.wraps(f)
+        def wrapper(*args, **kargs):
+            getparam = request.GET.get
+            for par, ptype, required in param_info:
+                value = getparam(par)
+                if not value: # None or empty str
+                    if required:
+                        error = "%s() requires the parameter %s" % (wrapper.__name__, par)
+                        raise TypeError(error)
+                    continue
+                try:
+                    kargs[par] = ptype(value)
+                except:
+                    error = "Cannot convert parameter %s to %s" % (par, ptype.__name__)
+                    raise ValueError(error)
+
+            return callback(*args, **kargs)
+        return wrapper
+    return decorator
