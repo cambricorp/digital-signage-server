@@ -2,7 +2,12 @@
     "reloader": true,
     "debug": true,
     "environment": "dev",
-    "db": "data/store.db",
+    "db": {
+        "backend": "sqlite3",
+        "sqlite3": {
+            "filename": "%(HOME)s/var/data/store.db"
+        }
+    },
     "http": {
         "bind_address": "127.0.0.1",
         "port": 8000
