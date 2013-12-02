@@ -26,6 +26,10 @@ def locate(pattern, root=os.getcwd()):
         for filename in [os.path.abspath(os.path.join(path, filename)) for filename in files if fnmatch.fnmatch(filename, pattern)]:
             yield filename
 
+def uuid_path(filename, root=os.getcwd(), id=uuid.uuid1()):
+    s = str(id).replace('-','')
+    return os.path.join(root, '/'.join([s[i:i+4] for i in xrange(0,len(s),4)]), filename)
+
 
 def walk(top, topdown=True, onerror=None, followlinks=False, ziparchive=None, zipdepth=0):
     """Reimplementation of os.walk to traverse ZIP files as well"""
