@@ -24,7 +24,7 @@ rm /tmp/.limit
 if [ ! -f /vagrant/env/bin/activate ]; then
     virtualenv /vagrant/env
     . /vagrant/env/bin/activate
-    pip install -U gevent celery[redis] uwsgi
+    pip install -U gevent celery[redis] uwsgi pygments
 fi
 
 if [ ! -h /opt/phantomjs ]; then
