@@ -2,11 +2,12 @@
     "reloader": true,
     "debug": true,
     "environment": "dev",
-    "db": {
-        "backend": "sqlite3",
-        "sqlite3": {
+    "store": {
+        "engine": "sqlite3",
+        "db": {
             "filename": "%(HOME)s/var/data/store.db"
-        }
+        },
+        "images": "%(HOME)s/var/data/store.db"
     },
     "http": {
         "bind_address": "0.0.0.0",
@@ -15,6 +16,20 @@
     "redis": {
         "server": "127.0.0.1",
         "port": 6379
+    },
+    "celery": {
+        "broker_url"    : "redis://localhost:6379/0",
+        "result_backend": "redis://localhost:6379/0",
+        "rate_limit"    : "100"
+    },
+    "phantom": {
+        "path": "/opt/phantomjs/phantomjs",
+        "sizes": ["1280x720"],
+        "timeout": 15000
+    },
+    "imagemagick": {
+        "convert": "/usr/bin/convert",
+        "args"   : "%s -quality 100 %s -strip -interlace Plane -bordercolor white -border 0x0 %s"
     },
     "logging": {
         "version": 1,
