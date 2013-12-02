@@ -16,8 +16,24 @@ touch -d '-1 week' /tmp/.limit
 if [ /tmp/.limit -nt /var/cache/apt/pkgcache.bin ]; then
     apt-get -y update
     apt-get -y dist-upgrade
-    apt-get -y install redis-server sqlite3 htop tmux vim rsync python-dev python-setuptools python-pip python-pygments python-redis python-nose
+    apt-get -y install redis-server sqlite3 htop tmux vim rsync python-dev python-setuptools libev-dev bzip2
+    sudo easy_install virtualenv
 fi
 rm /tmp/.limit
+
+if [ ! -f /vagrant/env/bin/activate ]; then
+    virtualenv /vagrant/env
+    . /vagrant/env/bin/activate
+    pip install -U gevent celery[redis] uwsgi
+fi
+
+if [ ! -h /opt/phantomjs ]; then
+    cd /tmp
+    wget --no-check-certificate https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2
+    cd /opt
+    sudo tar -jxvf /tmp/phantomjs-1.9.2-linux-x86_64.tar.bz2
+    sudo ln -s phantomjs-1.9.2-linux-x86_64 phantomjs
+    rm /tmp/phantomjs-1.9.2-linux-x86_64.tar.bz2
+fi
 END
 end
