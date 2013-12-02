@@ -11,4 +11,4 @@ import os, sys, logging
 log = logging.getLogger()
 
 # import all other routes
-import debug, docs, feeds, static
+import debug, docs, static
