@@ -22,7 +22,7 @@ if [ /tmp/.limit -nt /var/cache/apt/pkgcache.bin ]; then
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
     apt-get -y dist-upgrade
     apt-get -y install htop tmux vim rsync python-dev python-setuptools libev-dev 
-    apt-get -y install redis-server imagemagick bzip2 ttf-mscorefonts-installer
+    apt-get -y install sqlite3 redis-server imagemagick bzip2 ttf-mscorefonts-installer
     sudo easy_install virtualenv
 fi
 rm /tmp/.limit
