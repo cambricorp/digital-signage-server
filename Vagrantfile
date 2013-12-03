@@ -29,7 +29,8 @@ if [ /tmp/.limit -nt /var/cache/apt/pkgcache.bin ]; then
 fi
 rm /tmp/.limit
 
-# fix font rendering the hard way
+# Since PhantomJS currently has issues running on Debian 7, this tries
+# to fix font rendering the hard way using the Infinality stack
 if [ ! -f /etc/fonts/infinality ]; then
     sudo apt-get install -y build-essential devscripts git-core
     sudo apt-get install -y docbook-to-man libx11-dev x11proto-core-dev quilt
