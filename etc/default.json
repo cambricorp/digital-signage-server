@@ -5,9 +5,9 @@
     "store": {
         "engine": "sqlite3",
         "db": {
-            "filename": "%(HOME)s/var/data/store.db"
+            "filename": "%(APPLICATION_ROOT)s/var/data/store.db"
         },
-        "images": "%(HOME)s/var/data/store.db"
+        "images": "%(APPLICATION_ROOT)s/var/data/shots"
     },
     "http": {
         "bind_address": "0.0.0.0",
@@ -23,13 +23,13 @@
         "rate_limit"    : "100"
     },
     "phantom": {
-        "path": "/opt/phantomjs/phantomjs",
-        "sizes": ["1280x720"],
-        "timeout": 15000
+        "path": "/opt/phantomjs/bin/phantomjs",
+        "sizes": ["1280x720","1024x768","1280x1024"],
+        "timeout": 1000
     },
     "imagemagick": {
         "convert": "/usr/bin/convert",
-        "args"   : "%s -quality 100 %s -strip -interlace Plane -bordercolor white -border 0x0 %s"
+        "args"   : "%s %s -quality 100 -strip -interlace Plane -bordercolor white -border 0x0 %s"
     },
     "logging": {
         "version": 1,

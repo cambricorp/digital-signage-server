@@ -12,6 +12,7 @@ import fnmatch, json
 
 log = logging.getLogger()
 
+from filekit import path_for
 
 class Singleton(type):
     """An implemetation of the Singleton pattern (use as metaclass)"""
@@ -57,8 +58,10 @@ def json_str(item, bind_env=True):
     elif isinstance(item, list):
         return [json_str(element, bind_env=bind_env) for element in item]
     elif isinstance(item, unicode) and bind_env:
+        env = os.environ
+        env.update({"APPLICATION_ROOT": path_for('')})
         try:
-            return item.encode('utf-8') % os.environ
+            return item.encode('utf-8') % env
         except:
             return item.encode('utf-8')
     else:
