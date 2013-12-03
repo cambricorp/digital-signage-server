@@ -30,7 +30,8 @@ rm /tmp/.limit
 if [ ! -f /vagrant/env/bin/activate ]; then
     virtualenv /vagrant/env
     . /vagrant/env/bin/activate
-    pip install -U gevent celery[redis] uwsgi pygments
+    pip install -U gevent celery[redis] uwsgi pygments bpython
+    echo ". /vagrant/env/bin/activate" | tee -a /home/vagrant/.bash_profile
 fi
 
 if [ ! -h /opt/phantomjs ]; then

@@ -7,16 +7,14 @@ Description: File utility functions
 License: MIT (see LICENSE.md for details)
 """
 
-import os, sys, logging, zipfile
+import os, sys, logging, zipfile, uuid
 
 log = logging.getLogger()
 
 def path_for(name, script=__file__):
     """Build absolute paths to resources based on app path"""
 
-    if 'uwsgi' in sys.argv:
-        return os.path.join(os.path.abspath(os.path.join(os.path.dirname(script),'..')),name)
-    return os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]),name))
+    return os.path.join(os.path.abspath(os.path.join(os.path.dirname(script),'..','..')),name)
 
 
 def locate(pattern, root=os.getcwd()):
