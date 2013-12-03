@@ -32,6 +32,7 @@ def snapshot_set(url, ttl=0, uuid = None):
     result = []
     for s in settings.phantom.sizes:
         width, height = map(int,s.split('x'))
+        log.debug(s)
         result.append(snapshot.delay(url, width, height, ttl, uuid))
     return result
 
@@ -42,10 +43,13 @@ def snapshot(url, width, height, ttl, uuid):
     #TODO: check if file already exists, is valid and whether or not it needs updating
     ih, image_filename = tempfile.mkstemp(suffix='.png')
     os.close(ih)
-    log.debug([settings.phantom.path,'--ignore-ssl-errors=yes','--ssl-protocol=any',path_for('etc/snap.js'),url, image_filename, str(width), str(height), str(settings.phantom.timeout)])
     subprocess.call([settings.phantom.path,'--ignore-ssl-errors=yes','--ssl-protocol=any',path_for('etc/snap.js'),url, image_filename, str(width), str(height), str(settings.phantom.timeout)])
     #TODO: validate output file format
-    os.makedirs(os.path.dirname(result_filename))
+    try:
+        os.makedirs(os.path.dirname(result_filename))
+    except OSError, e:
+        if "exists" not in str(e).lower():
+            raise
     subprocess.call(settings.imagemagick.args % (settings.imagemagick.convert, image_filename, result_filename), shell=True)
     os.unlink(image_filename)
     return result_filename

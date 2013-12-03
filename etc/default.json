@@ -24,8 +24,8 @@
     },
     "phantom": {
         "path": "/opt/phantomjs/bin/phantomjs",
-        "sizes": ["1280x720","1024x768","1280x1024"],
-        "timeout": 1000
+        "sizes": ["1280x720"],
+        "timeout": 15000
     },
     "imagemagick": {
         "convert": "/usr/bin/convert",
