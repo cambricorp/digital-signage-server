@@ -14,7 +14,10 @@
         "port": 8000
     },
     "redis": {
-        "url"    : "redis://localhost:6379/0",
+        "server" : {
+            "host"   : "localhost",
+            "port"   : 6379            
+        },
         "#"      : "Dynamic configuration data we'll preload",
         "preload": {
             "config:max_data_points": 10000

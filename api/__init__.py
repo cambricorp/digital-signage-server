@@ -14,4 +14,4 @@ version = '1'
 prefix = '/api/v%s' % version
 
 # install route submodules
-import stats
+import metrics
