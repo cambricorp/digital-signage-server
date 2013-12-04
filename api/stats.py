@@ -19,8 +19,6 @@ from .decorators import check_valid_beacon
 
 r = Redis(settings.celery.broker_url)
 
-max_data_points = 
-
 prefix = api.prefix + '/stats'
 
 # Collection URI - List
