@@ -39,7 +39,7 @@ def check_valid_beacon(callback):
             'free_disk'   : valid_integer,
             'uptime'      : valid_integer,
             'tx_bytes'    : valid_integer,
-            'rx_bytes'    : valid_integer,
+            'rx_bytes'    : valid_integer
         }
         for required in ['mac_address','ip_address']:
             if required not in request.forms:
@@ -47,12 +47,9 @@ def check_valid_beacon(callback):
                 return                
         for field in request.forms:
             res = patterns[field](request.forms.get(field))
-            log.debug("%s:%s" % (field, res))
+            log.debug("%s %s:%s" % (field, request.forms.get(field), res))
             if not res:
                 abort(406, "Not acceptable")
                 return
-        if set(request.forms) != set(patterns):
-            abort(406, "Not acceptable")
-            return
         return callback(*args, **kwargs)
     return wrapper

@@ -17,9 +17,9 @@ from redis import StrictRedis as Redis
 from utils.core import Struct
 from .decorators import check_valid_beacon
 
-r = Redis(settings.celery.broker_url)
+r = Redis(**settings.redis.server)
 
-prefix = api.prefix + '/stats'
+prefix = api.prefix + '/metrics'
 
 # Collection URI - List
 @get(prefix)
@@ -34,16 +34,65 @@ def replace():
 
 
 # Collection URI - Add item to collection
-@check_valid_beacon
 @post(prefix)
-def append():
-	data = Struct(request.forms)
-	data.when = time.time()
-	count = r.lpush("stats:%s" % data.mac_address, json.dumps(data))
-	limit = r.get("config:max_data_points")
-	if limit and count > limit:
-		r.ltrim("stats:%s" % data.mac_address, 0, limit)
+@check_valid_beacon
+def add_data_point():
+    """
 
+    /api/<version>/metrics
+
+    Adds a data point to the various metrics. Requires a valid MAC address and IP address, tracks:
+
+    * `cpu_temp`
+    * `cpu_usage`
+    * `browser_ram` - deprecated
+    * `free_ram`
+    * `free_disk`
+    * `tx_bytes`
+    * `rx_bytes`
+    """
+
+    types = {
+        'playlist'    : str,
+        'mac_address' : str,
+        'ip_address'  : str,
+        'cpu_freq'    : int,
+        'cpu_temp'    : float,
+        'cpu_usage'   : int,
+        'browser_ram' : int,
+        'free_ram'    : int,
+        'free_disk'   : int,
+        'uptime'      : int,
+        'tx_bytes'    : int,
+        'rx_bytes'    : int,        
+    }
+
+    data = Struct(request.forms)
+
+    # enforce typing - we can't do that on a request.forms dict
+    for field in types:
+        if field in data:
+            data[field] = types[field](data[field])
+    
+    # add a timestamp    
+    data.when = time.time()
+    log.debug(data)
+
+    # store current status
+    r.set("status:%s" % data.mac_address, json.dumps(data))
+
+    limit = r.get("config:max_data_points")
+
+    # store each interesting field in its own (capped) list
+    stored = []
+    for interesting in ['cpu_temp','cpu_usage','browser_ram','free_ram','free_disk','tx_bytes','rx_bytes']:
+        if interesting in request.forms:
+            count = r.lpush("metrics:%s:%s" % (interesting, data.mac_address), json.dumps({"t": data.when, "v": data[interesting]}))
+            stored.append(interesting)
+            if limit and count > limit:
+                r.ltrim("metrics:%s" % data.mac_address, 0, limit)
+    # tell the client what we stored
+    return {"stored": stored}
 
 # Collection URI - Delete entire collection
 @delete(prefix)
