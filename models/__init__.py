@@ -13,13 +13,13 @@ log = logging.getLogger()
 
 from config import settings
 
-if settings.db.backend == 'sqlite3':
-    db = SqliteDatabase(settings.db.sqlite3.filename, threadlocals=True)
-elif settings.db.backend == 'postgres':
-    db = PostgresqlDatabase(settings.db.postgres.name)
+if settings.storage.db.engine == 'sqlite3':
+    db = SqliteDatabase(settings.storage.db.filename, threadlocals=True)
+elif settings.storage.db.engine == 'postgres':
+    db = PostgresqlDatabase(settings.storage.db.name)
     db.connect()
 else:
-    print "Unknown database backend"
+    print "Unknown database engine"
     sys.exit(2)
 
 
