@@ -17,7 +17,7 @@
         "url"    : "redis://localhost:6379/0",
         "#"      : "Dynamic configuration data we'll preload",
         "preload": {
-            "config:max_data_points": 10000,
+            "config:max_data_points": 10000
         }
     },
     "celery": {
