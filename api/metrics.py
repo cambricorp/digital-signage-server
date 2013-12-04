@@ -23,8 +23,17 @@ prefix = api.prefix + '/metrics'
 
 # Collection URI - List
 @get(prefix)
-def list():
-    abort(501,'Not Implemented')
+def list_data_():
+    """
+
+    /api/<version>/metrics
+
+    Returns the set of clients and metrics currently being tracked.
+    """
+    return { 
+        "clients": r.smembers("metrics:_clients"), 
+        "metrics": r.smembers("metrics:_labels") 
+    }
     
 
 # Collection URI - Replace entire collection
@@ -80,6 +89,7 @@ def add_data_point():
 
     # store current status
     r.set("status:%s" % data.mac_address, json.dumps(data))
+    r.sadd("metrics:_clients", data.mac_address)
 
     limit = r.get("config:max_data_points")
 
@@ -88,6 +98,7 @@ def add_data_point():
     for interesting in ['cpu_temp','cpu_usage','browser_ram','free_ram','free_disk','tx_bytes','rx_bytes']:
         if interesting in request.forms:
             count = r.lpush("metrics:%s:%s" % (interesting, data.mac_address), json.dumps({"t": data.when, "v": data[interesting]}))
+            r.sadd("metrics:_labels", interesting)
             stored.append(interesting)
             if limit and count > limit:
                 r.ltrim("metrics:%s" % data.mac_address, 0, limit)
