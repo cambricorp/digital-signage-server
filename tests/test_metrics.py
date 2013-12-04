@@ -6,7 +6,6 @@ sys.path.append('../lib')
 
 log = logging.getLogger()
 
-
 valid_data = {
     'playlist'    : "some_playlist",
     'mac_address' : "00:de:ad:be:ef:42",
@@ -21,8 +20,10 @@ valid_data = {
 
 def test_valid_data_point():
     """Valid POST payload"""
+
     res = post('metrics', valid_data)
     log.debug(res)
+
 
 def test_invalid_data_point():
     """Invalid data of various kinds"""
@@ -43,9 +44,11 @@ def test_invalid_data_point():
         res = post('metrics', data)
         log.debug(data)
 
+
 @raises(urllib2.HTTPError)
 def test_invalid_data_point():
     """Invalid POST payload"""
+
     data = post('metrics', {
         'playlist'    : "some_playlist",
         'uptime'      :0
