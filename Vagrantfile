@@ -46,7 +46,7 @@ fi
 if [ ! -f /home/vagrant/env/bin/activate ]; then
     virtualenv /home/vagrant/env
     . /home/vagrant/env/bin/activate
-    pip install -U gevent celery[redis] uwsgi pygments bpython
+    pip install -U gevent celery[redis] uwsgi pygments bpython nose
     echo ". /home/vagrant/env/bin/activate" | sudo tee -a /home/vagrant/.bash_profile
 fi
 
