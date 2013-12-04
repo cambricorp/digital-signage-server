@@ -14,8 +14,11 @@
         "port": 8000
     },
     "redis": {
-        "server": "127.0.0.1",
-        "port": 6379
+        "url"    : "redis://localhost:6379/0",
+        "#"      : "Dynamic configuration data we'll preload",
+        "preload": {
+            "config:max_data_points": 10000,
+        }
     },
     "celery": {
         "broker_url"    : "redis://localhost:6379/0",
