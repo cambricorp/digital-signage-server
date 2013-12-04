@@ -2,9 +2,9 @@
     "reloader": true,
     "debug": true,
     "environment": "dev",
-    "store": {
-        "engine": "sqlite3",
+    "storage": {
         "db": {
+            "engine": "sqlite3",
             "filename": "%(APPLICATION_ROOT)s/var/data/store.db"
         },
         "images": "%(APPLICATION_ROOT)s/var/data/shots"
