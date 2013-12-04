@@ -18,7 +18,7 @@ def check_valid_beacon():
         @functools.wraps(callback)
         def wrapper(*args, **kwargs):
             patterns = {
-                'playlist'    : valid_identifier
+                'playlist'    : valid_identifier,
                 'mac_address' : valid_mac_address,
                 'ip_address'  : valid_ip_address,
                 'cpu_freq'    : valid_integer,
