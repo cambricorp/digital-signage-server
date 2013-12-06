@@ -10,6 +10,5 @@ def fetch(method):
 
 def post(method, data):
 	payload = urllib.urlencode(data)
-	log.debug(payload)
 	return json.loads(urllib2.urlopen(base_url + method, payload).read())
 

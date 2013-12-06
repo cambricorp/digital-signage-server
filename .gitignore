@@ -1,5 +1,6 @@
 # Mac junk
 .DS_Store
+.fslckout
 
 # Python
 *.py[cod]

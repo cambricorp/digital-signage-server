@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Worker tasks
+Image tasks
 
 Created by: Rui Carmo
 """
@@ -40,11 +40,12 @@ def snapshot_set(url, ttl=0, uuid = None):
 @celery.task(retries=3)
 def snapshot(url, width, height, ttl, uuid):
     result_filename = uuid_path("%dx%d.jpg" % (width, height), root=settings.store.images, id=uuid)
-    #TODO: check if file already exists, is valid and whether or not it needs updating
+    # TODO: check if file already exists, is valid and whether or not it needs updating
     ih, image_filename = tempfile.mkstemp(suffix='.png')
     os.close(ih)
+    # TODO: set up reaper
     subprocess.call([settings.phantom.path,'--ignore-ssl-errors=yes','--ssl-protocol=any',path_for('etc/snap.js'),url, image_filename, str(width), str(height), str(settings.phantom.timeout)])
-    #TODO: validate output file format
+    # TODO: validate output file format
     try:
         os.makedirs(os.path.dirname(result_filename))
     except OSError, e:
