@@ -33,6 +33,12 @@
         "sizes": ["1280x720"],
         "timeout": 15000
     },
+    "vlc": {
+        "path": "/usr/bin/cvlc",
+        "size": "1280x720",
+        "xvfb": ":%(display)d -screen 0 %(size)sx24 +extension Composite -nocursor -dpi 96 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/",
+        "cvlc": "cvlc screen:// :screen-fps=12 :screen-caching=100 --sout \"#transcode{vcodec=h264,venc=x264{keyint=24,idrint=12,profile=veryslow,tune=zerolatency,bframes=3,ref=9,scenecut=80},fps=12,scale=1,vb=320}:std{access=file,mux=mp4,dst=%(filename)s}\""
+    },
     "imagemagick": {
         "convert": "/usr/bin/convert",
         "args"   : "%s %s -quality 100 -strip -interlace Plane -bordercolor white -border 0x0 %s"
