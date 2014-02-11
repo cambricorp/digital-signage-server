@@ -12,13 +12,13 @@ from bottle import route, view
 
 log = logging.getLogger()
 
-import utils
+import utils.dockit
 
 @route('/docs/<path:path>')
 @view('docs.tpl')
 def send_doc_wrapper(path):
     """Render documentation for a specific API module"""
-    docs = utils.docs()
+    docs = utils.dockit.docs()
     if path in docs:
         return {"title": path.title(), "docs": docs[path]}
     abort(404,"Not Found")

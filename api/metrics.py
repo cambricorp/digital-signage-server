@@ -23,10 +23,10 @@ prefix = api.prefix + '/metrics'
 
 # Collection URI - List
 @get(prefix)
-def list_data_():
+def list_data():
     """
 
-    /api/<version>/metrics
+    /api/v1/metrics
 
     Returns the set of clients and metrics currently being tracked.
     """
@@ -48,7 +48,7 @@ def replace():
 def add_data_point():
     """
 
-    /api/<version>/metrics
+    /api/v1/metrics
 
     Adds a data point to the various metrics. Requires a valid MAC address and IP address, tracks:
 
