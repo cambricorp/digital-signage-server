@@ -40,7 +40,7 @@
         "cli": "/usr/bin/uzbl-core %(url)s"
     },
     "xvfb": {
-        "cli": "/usr/bin/Xvfb :%(display)d -screen 0 %(width)dx%(height)dx24 +extension Composite -nocursor -dpi 96 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/",
+        "cli": "/usr/bin/Xvfb :%(display)d -screen 0 %(width)dx%(height)dx24 +extension Composite -nocursor -dpi 96 -fp /usr/share/fonts/X11/misc/,/usr/share/fonts/X11/Type1/,/usr/share/fonts/X11/75dpi/,/usr/share/fonts/X11/100dpi/"
     },
     "imagemagick": {
         "convert": "/usr/bin/convert",
