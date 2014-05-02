@@ -3,7 +3,7 @@
 """
 Application routes
 
-Created by: Rui Carmo
+Created by: Rui Carmo (https://github.com/rcarmo)
 """
 
 import os, sys, logging
@@ -14,4 +14,4 @@ version = '1'
 prefix = '/api/v%s' % version
 
 # install route submodules
-import metrics
+import admin, feeds, assetlist

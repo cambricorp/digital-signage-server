@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Template file for an API branch
+(Unused) API for metrics
 
-Created by: Rui Carmo
+Created by: Rui Carmo (https://github.com/rcarmo)
 """
 
 import os, sys, logging, json, time

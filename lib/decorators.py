@@ -144,6 +144,7 @@ def jsonp(callback):
             body = ''.join([callback_function, '(', body, ')'])
             response.content_type = 'text/javascript'
 
+        response.set_header('Access-Control-Allow-Origin', '*')
         response.set_header('Last-Modified', time.strftime(gmt_format_string, time.gmtime()))
         response.set_header('ETag', binascii.b2a_base64(hashlib.sha1(body).digest()).strip())
         response.set_header('Content-Length', len(body))

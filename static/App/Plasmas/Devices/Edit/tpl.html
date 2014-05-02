@@ -1,0 +1,56 @@
+<div class="ink-form">
+    <div class="column-group control-group required validation error">
+        <label class="large-30 medium-100 small-100">Name:&nbsp;</label>
+        <div class="control large-50 medium-100 small-100">
+            <input type="text" data-bind="value: name, valueUpdate: 'afterkeydown'" autofocus/>
+        </div>
+        <p class="tip large-100" data-bind="validationMessage: name"></p>
+    </div>
+
+    <div class="column-group control-group required validation error">
+        <label class="large-30 medium-100 small-100">Playlist:&nbsp;</label>
+        <div class="control large-50 medium-100 small-100">
+            <input type="text" data-bind="autoComplete: playlists, value: playlist, optionsText: 'name', optionsValue: 'name'" />
+        </div>
+        <p class="tip large-100" data-bind="validationMessage: playlist"></p>
+    </div>
+
+    <!-- ko ifnot: editMode -->
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Mac. address:&nbsp;</label>
+            <div class="control large-50 medium-100 small-100">
+                <input type="text" data-bind="value: macAddress, valueUpdate: 'afterkeydown'" />
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: macAddress"></p>
+        </div>
+    <!-- /ko -->
+    <!-- ko if: editMode -->
+        <div class="column-group control-group">
+            <label class="large-30 medium-100 small-100">Mac. address:&nbsp;</label>
+            <div class="control large-50 medium-100 small-100">
+                <span data-bind="text: macAddress"></span>
+            </div>
+        </div>
+    <!-- /ko -->
+
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">IP address:&nbsp;</label>
+        <div class="control large-50 medium-100 small-100">
+            <span data-bind="text: ipAddress"></span>
+        </div>
+    </div>
+
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">Client version:&nbsp;</label>
+        <div class="control large-50 medium-100 small-100">
+            <span data-bind="text: version"></span>            
+        </div>
+    </div>
+    
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">Active:&nbsp;</label>
+        <div class="control large-20 medium-40 small-100">
+            <input type="checkbox" data-bind="checked: active"></input>            
+        </div>
+    </div>
+</div>

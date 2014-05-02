@@ -1,0 +1,90 @@
+<section id="plasmasModule" class="module disable-text-selection" data-bind="css: {'hide-unpinned-playlists': hideUnpinnedPlaylists}">
+    <header>
+        <h1 class="push-left">Playlists</h1>
+        <h1 class="push-left quarter-left-space inactive"><a href="#devices">Devices</a></h1>
+        <button class="push-right ink-button green" data-bind="click: newAssetHandler">New asset</button>
+        <button class="push-right ink-button green" data-bind="click: newPlaylistHandler">New playlist</button>
+        <nav class="ink-navigation push-right half-right-space">
+            <ul class="pills shadowed">
+                <li data-bind="css: {active: hideUnpinnedPlaylists}"><a href="javascript:void(0)" data-bind="click: toggleHideUnpinnedHandler">Hide unpinned</a></li>
+            </ul>
+        </nav>
+        <nav class="ink-navigation push-right half-right-space" style="margin-top: 0px;">
+            <ul class="pills shadowed">
+                <li data-bind="css: {active: kanbanMode}"><a href="javascript:void(0)" data-bind="click: toggleMode"><i class="icon-columns"></i></a></li>
+                <li data-bind="css: {active: masonMode}"><a href="javascript:void(0)" data-bind="click: toggleMode"><i class="icon-th"></i></a></li>
+            </ul>
+        </nav>        
+        <div class="clearfix"></div>
+        <hr>
+    </header>
+
+    <!-- ko if: showKanban -->
+        <div id="playlistsKanban" data-bind="css: {'mason-mode': masonMode}">
+            <div id="playlistsKanbanViewport">
+                <!--ko module: {name:'Ink.Data.KanBan_1', data: {afterRender: afterKanbanRender.bind($data), showSectionTooltip: false, sections: sections, previewMoveHandler: previewMoveHandler.bind($data), cardsMovedHandler: cardsMovedHandler.bind($data)}}-->
+                <!--/ko-->
+            </div>
+        </div>
+    <!--/ko-->
+</section>
+
+<script type="text/html" id="uriAssetCardTemplate">
+    <em><a target="blank" data-bind="text: uri, attr: {title: uri, href: uri}, clickBubble: false"></a></em>
+    <br>
+    <em><span data-bind="text: duration_secs"></span> secs</em><br>
+    <br>
+</script>
+
+<script type="text/html" id="kanalAssetCardTemplate">
+    <em>Kanal: <span data-bind="text: kanal"></span></em>
+    <br>
+    <em><span data-bind="text: duration_secs"></span> secs</em><br>
+    <em><span data-bind="text: how_many"></span>&nbsp;<span data-bind="if: shuffle">(Shuffled)</span> items</em><br>
+    <br>
+</script>
+
+<script type="text/html" id="playlistAssetCardTemplate">
+    <em>Playlist: <span data-bind="text: playlist"></span></em>
+    <br>
+    <em><span data-bind="text: how_many"></span>&nbsp;<span data-bind="if: shuffle">(Shuffled)</span> items</em><br>
+    <br>
+</script>
+
+<script type="text/html" id="assetsSectionHeaderTemplate">
+    <div class="ink-form enable-text-selection">
+        <div class="push-left">Assets</div>
+        <div class="push-right playlist-settings half-left-space">
+            <a href="javascript:void(0);" title="New asset" data-bind="click: newAssetHandler"><i class="icon-plus"></i></a>
+        </div>
+        <div class="push-right">
+            <select data-bind="value: assetTypeFilter">
+                <option>All</option>
+                <option value="video">Videos</option>
+                <option value="web">Web</option>
+                <option value="meokanal">MeoKanal</option>
+                <option value="playlist">Playlist</option>
+            </select>        
+        </div>
+        <div class="clearfix"></div>
+        <input class="large-95 half-top-space" placeholder="Search..." type="search" data-bind="value: assetSearchFilter, valueUpdate: 'afterkeydown'"></input>
+    </div>
+</script>
+
+<script type="text/html" id="playlistSectionHeaderTemplate">
+    <div class="push-left" data-bind="text: title"></div>
+    <div class="push-right playlist-settings">
+        <a href="javascript:void(0);" title="Edit playlist" data-bind="click: $data.settingsHandler"><i class="icon-cog"></i></a>
+    </div>
+    <div class="push-right half-right-space playlist-pin-box" data-bind="css: {pinned: pinned}">
+        <div>
+            <a href="javascript:void(0);" data-bind="click: playlistPinToggleHandler"><i class="icon-pushpin"></i></a>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" id="assetsSectionFooterTemplate">
+    <button class="ink-button green" data-bind="click: newAssetHandler">New asset</button>
+</script>
+

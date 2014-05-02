@@ -8,7 +8,7 @@ License: MIT (see LICENSE.md for details)
 """
 
 import os, sys, logging
-import fnmatch, json
+import fnmatch, json, datetime
 
 log = logging.getLogger()
 
@@ -93,3 +93,9 @@ def tb():
 
     etype, value, tb = sys.exc_info()
     return "%s: %s (%s@%s:%d)" % (etype.__name__, value, tb.tb_frame.f_code.co_name, os.path.basename(tb.tb_frame.f_code.co_filename), tb.tb_lineno)
+
+
+def datetime_serializer(obj):
+    if type(obj) is datetime.datetime:
+        return str(obj)
+    raise TypeError("Unserializable object {} of type {}".format(obj, type(obj)))

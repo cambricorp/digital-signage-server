@@ -1,0 +1,34 @@
+<section class="module space">
+    <header>
+        <h1 class="push-left inactive"><a href="#playlists">Playlists</a></h1>
+        <h1 class="push-left quarter-left-space">Devices</h1>
+        <button class="push-right ink-button green" data-bind="click: newDeviceHandler">New device</button>
+        <button class="push-right ink-button red half-right-space" data-bind="click: sendAlert">Send alert</button>
+        <nav class="ink-navigation push-right half-right-space">
+            <ul class="pills shadowed">
+                <li data-bind="css: {active: allDevices}">
+                    <a href="javascript:void(0)" data-bind="click: toggleAllDevices">Check all devices</a>
+                </li>
+            </ul>
+        </nav>        
+        <div class="clearfix"></div>
+        <hr>
+    </header>
+    
+    <div data-bind="simpleGrid: devicesViewModel"></div>
+</section>
+
+<script type="text/html" id="deviceSelectedTemplate">
+    <input type="checkbox" data-bind="checked: selected"></input>    
+</script>
+
+<script type="text/html" id="deviceActionsTemplate">
+    <div class="push-left half-right-space">
+        <a href="javascript:void(0)" title="Edit device" data-bind="click: $root.editDeviceHandler"><i class="icon-edit"></i> Edit</a>
+    </div>
+    <!--    
+    <div class="push-left half-right-space" data-bind="if: playlist">
+        <a href="javascript:void(0)" title="Show playlist assets" data-bind="click: $root.showDevicePlaylistHandler"><i class="icon-tasks"></i> Playlist</a>
+    </div>
+    -->    
+</script>

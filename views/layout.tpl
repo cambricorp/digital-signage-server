@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Digital signage administration</title>
+
         <meta charset="utf-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="/css/ink-min.css">
-        <link rel="stylesheet" href="/css/main.css">
-        <script src="/js/zepto.min.js"></script>
-%if defined('scripts'):
-    %for script in scripts:    
-        <script src="/js/{{script}}"></script>
-    %end
-%end
+        <link rel="stylesheet" href="../content/css/ink.css">
+        <link rel="stylesheet" href="../content/css/plasmas.css">
     </head>
-    <body onload="brython()">
-        <nav class="ink-navigation">
-            <ul class="menu horizontal black">
-                <li><a href="#">Digital Signage Server</a></li>
-            </ul>
-        </nav>
-        <div id="main" class="ink-grid vspace">
-            %include
+    <body>
+        <div class="ink-grid no-padding">
+            <div class="column-group">
+                <nav id="mainMenu" class="ink-navigation">
+                    <ul class="menu horizontal white">
+                        <li style="visibility: hidden"><a href="#">&nbsp;</a></li>
+                    </ul>
+                    <h4 class="menu-title">Digital signage administration</h4>
+                </nav>
+                %include
+            </div>
         </div>
     </body>
 </html>

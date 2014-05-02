@@ -1,0 +1,28 @@
+<div class="ink-form">
+    <!-- Playlist name -->
+    <!-- ko ifnot: editMode -->
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Name:&nbsp;</label>
+            <div class="control large-50 medium-100 small-100">
+                <input type="text" data-bind="value: name, valueUpdate: 'afterkeydown'" autofocus/>
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: name"></p>
+        </div>
+    <!-- /ko -->
+    <!-- ko if: editMode -->
+        <div class="column-group control-group">
+            <label class="large-30 medium-100 small-100">Name:&nbsp;</label>
+            <div class="control large-50 medium-100 small-100">
+                <span data-bind="text: name"></span>
+            </div>
+        </div>
+    <!-- /ko -->
+    
+    <!-- Description -->
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">Description:&nbsp;</label>
+        <div class="control large-70 medium-100 small-100">
+            <textarea data-bind="value: description"></textarea>
+        </div>
+    </div>
+</div>

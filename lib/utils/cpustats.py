@@ -22,15 +22,15 @@ def usage(interval=0.1):
     """Estimates overall CPU usage during a short time interval"""
     t1 = stats()
     time.sleep(interval)
-    t2 = stats() 
+    t2 = stats()
     delta = [t2[i] - t1[i] for i in range(len(t1))]
     try:
         return 1.0 - (delta[-1:].pop()/(sum(delta)*1.0))
-    except: 
+    except:
         return 0.0
 
 
-def freqency(cpu='cpu0'):
+def frequency(cpu='cpu0'):
     """Retrieves the current CPU speed in MHz - for a single CPU"""
     return float(open('/sys/devices/system/cpu/%s/cpufreq/scaling_cur_freq' % cpu,'r').read().strip())/1000.0
 

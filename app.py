@@ -12,10 +12,18 @@ import os, sys, logging
 sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'lib'))
 
 import utils, bottle
-
 from config import settings
+from beaker.middleware import SessionMiddleware
+#from gevent import monkey
 
+#monkey.patch_all()
+
+app = SessionMiddleware(bottle.app(), settings.http.session_opts)
 log = logging.getLogger()
+
+@bottle.error()
+def error_handler(e):
+    return str(e.exception)
 
 if __name__ == "__main__":
 
@@ -34,5 +42,10 @@ if __name__ == "__main__":
         port     = settings.http.port, 
         host     = settings.http.bind_address, 
         debug    = settings.debug,
-        reloader = settings.reloader
+        reloader = settings.reloader,
+        app      = app,
+        server   = settings.http.server,
+        **settings.http.server_options 
     )
+else:
+    application = app

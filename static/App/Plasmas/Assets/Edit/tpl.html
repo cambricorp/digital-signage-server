@@ -1,0 +1,127 @@
+<div class="ink-form">
+    <div class="column-group control-group required validation error">
+        <label class="large-30 medium-100 small-100">Description:&nbsp;</label>
+        <div class="control large-70 medium-100 small-100">
+            <input type="text" data-bind="value: description, valueUpdate: 'afterkeydown'" />
+        </div>
+        <p class="tip large-100" data-bind="validationMessage: description"></p>
+    </div>
+    
+    <div class="column-group control-group required validation error">
+        <label class="large-30 medium-100 small-100">Type:&nbsp;</label>
+        <div class="control large-40 medium-60 small-100">
+            <select data-bind="options: assetTypes, value: type"></select>            
+        </div>
+    </div>
+
+    <hr>
+    
+    <div data-bind="template: assetTemplateName"></div>
+    
+
+    <!-- 
+        Asset templates
+    -->
+    
+    <script type="text/html" id="videoAssetTemplate">
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Video Uri:&nbsp;</label>
+            <div class="control large-70 medium-100 small-100">
+                <input type="url" data-bind="value: videoUri, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: videoUri"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Duration (secs):&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="number" data-bind="value: durationSecs, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: durationSecs"></p>
+        </div>
+    </script>    
+
+    <script type="text/html" id="webAssetTemplate">
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Web Uri:&nbsp;</label>
+            <div class="control large-70 medium-100 small-100">
+                <input type="url" data-bind="value: webUri, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: webUri"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Duration (secs):&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="number" data-bind="value: durationSecs, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: durationSecs"></p>
+        </div>
+    </script>    
+
+    <script type="text/html" id="meokanalAssetTemplate">
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Channel number:&nbsp;</label>
+            <div class="control large-30 medium-40 small-100">
+                <input type="text" data-bind="value: kanalChannel, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: kanalChannel"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">PIN:&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="password" data-bind="value: pin, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: pin"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Duration (secs):&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="number" data-bind="value: durationSecs, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: durationSecs"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">How many items:&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="number" data-bind="value: howMany, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: howMany"></p>
+        </div>
+
+        <div class="column-group control-group">
+            <label class="large-30 medium-100 small-100">Shuffle:&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="checkbox" data-bind="checked: shuffle"></input>            
+            </div>
+        </div>
+    </script>    
+
+    <script type="text/html" id="playlistAssetTemplate">
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">Playlist:&nbsp;</label>
+            <div class="control large-30 medium-40 small-100">
+                <input type="text" data-bind="autoComplete: playlists, value: playlist, optionsText: 'name', optionsValue: 'name'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: playlist"></p>
+        </div>
+
+        <div class="column-group control-group required validation error">
+            <label class="large-30 medium-100 small-100">How many items:&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="number" data-bind="value: howMany, valueUpdate: 'afterkeydown'"></input>            
+            </div>
+            <p class="tip large-100" data-bind="validationMessage: howMany"></p>
+        </div>
+
+        <div class="column-group control-group">
+            <label class="large-30 medium-100 small-100">Shuffle:&nbsp;</label>
+            <div class="control large-20 medium-40 small-100">
+                <input type="checkbox" data-bind="checked: shuffle"></input>            
+            </div>
+        </div>
+    </script>    
+</div>

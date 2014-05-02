@@ -1,0 +1,382 @@
+/***************************** 
+ Ink Overrides 
+******************************/
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+header>hr {
+    clear: both;
+    top: -1em;
+    position: relative;
+}
+
+.ink-grid {
+    max-width: none !important;
+}
+
+.column-left {
+    padding-left: 2em;
+}
+
+.column-left:nth-of-type(1) {
+    padding-left: 0em;
+}
+
+.pagination {
+    padding-left: 1em !important;
+}
+
+.sapo_component_datepicker {
+    z-index: 9999999;
+}
+
+.ink-button[disabled], .ink-button .ink-disabled {
+    color: #A0A0A0 ! important;
+}
+
+.ink-table>tbody>tr:hover {
+    cursor: auto ! important;
+}
+
+.ink-table>tbody>tr>td>a {
+    display: block;
+}
+
+.ink-form label {
+    cursor: auto ! important;
+}
+
+input[type="checkbox"] {
+    width: auto !important;
+}
+
+/***************************** 
+ Custom syles 
+******************************/
+
+body, html {
+    height: 100%;
+}
+
+#toastPanel {
+    z-index: 999999999;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+}
+
+#toastPanel .ink-alert {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#applicationHost, #appContainer, #appContainer>.column-group {
+    position: relative; 
+    height: 100%;
+}
+
+.menu-title {
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    margin: 0px;
+    padding: 0.4em 0;
+    left: 2em;
+    right: 2em;
+}
+
+.logout-link {
+    position: absolute;
+    top: 0;
+    margin: 0px;
+    padding: 1em;
+    right: 0px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.no-padding {
+    padding: 0px ! important;
+}
+
+
+#mainMenu {
+    margin-bottom: 1em;
+    background-color: #d9d9d9;
+    padding: 1px 1px 0px 1px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.nospace {
+    margin-top: -0.2em;
+    margin-left: -0.4em;
+    padding: 0;
+    border: 0;
+}
+
+.sortable-header:hover {
+    background-color: #EAEAEA;
+    cursor: pointer;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+footer>.ink-navigation>ul>li>a {
+	display: block ! important;
+	text-align: center;
+}
+
+#mainMenuContainer {
+    height:0px;
+    overflow: visible;
+}
+
+#mainMenuContainer>ul {
+    position: absolute;
+    left: 0px; 
+    right: 0px;
+    margin-top: -1.5em;
+    z-index: 10000;
+}
+
+.scroll-area {
+	position: absolute;
+	left: 0.9em;
+	top: 2em;
+	right: 0.9em;
+	bottom: 3em;
+	overflow-y: auto;
+}
+
+#plasmasModule {
+    position: absolute; 
+    left: 1em;
+    right: 1em;
+    top: 4em;
+    bottom: 0px;
+}
+
+#playlistsKanbanViewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position:absolute;
+    left: 0px; 
+    top: 5em; 
+    right: 0px; 
+    bottom: 0px;
+}
+
+#plasmasModule .kanban {
+    position: relative;
+    overflow-x: visible;
+    white-space: nowrap;
+    height: 100%;
+}
+
+#plasmasModule .kanban .section {
+    display: inline-block;
+    white-space: normal;
+    position: static;
+    width: 290px;
+    overflow-y: auto;
+    max-height: 100%;
+    float: none;
+    vertical-align: top;
+}
+
+#plasmasModule .kanban .section .card {
+    max-width: none;
+}
+
+#plasmasModule .kanban .section>.content {
+    width: auto;
+}
+
+#plasmasModule .kanban .section>.title {
+}
+
+#plasmasModule .kanban .section.new-playlist-section>.footer {
+    display: none;
+}
+
+#plasmasModule .kanban .section.new-playlist-section>.title {
+    border-bottom: 0px;    
+}
+
+.playlist-settings {
+    padding: 4px;
+}
+
+.playlist-pin-box {
+    padding: 3px; 
+    border-bottom: solid 1px grey; 
+    border-right: solid 1px grey; 
+    border-top: solid 1px white; 
+    border-left: solid 1px white;
+}
+
+.playlist-pin-box.pinned {
+    border-bottom: solid 1px white; 
+    border-right: solid 1px white; 
+    border-top: solid 1px grey; 
+    border-left: solid 1px grey;
+}
+
+.playlist-pin-box.pinned>div>a {
+    color: black;
+}
+
+.playlist-pin-box.pinned>div {
+    transform:rotate(-9deg);
+    -ms-transform:rotate(-9deg); 
+    -webkit-transform:rotate(-9deg);     
+}
+
+#plasmasModule.hide-unpinned-playlists .kanban .section.unpinned {
+    display: none;
+} 
+
+#masonryViewport {
+    position: relative;
+}
+
+#masonryViewport .mason-block {
+    position: relative;
+    width: 300px;
+    background-color: #EFECEC;
+    border: 1px solid rgb(192, 192, 192);
+    min-height: 5em;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    padding: 5em;
+    float: left;
+}
+
+#masonryViewport .mason-block>.title {
+    position: relative;
+    border-bottom: 1px solid gray;
+    margin-bottom: 0.5em;
+    height: 2em;
+}
+
+#masonryViewport .mason-block>.mason-content {
+    position: relative;
+}
+
+#masonryViewport .mason-block>.mason-content>.mason-card {
+    position: relative;
+    background-color: white;
+    margin-top: 0.5em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+    padding: 0.3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid gray;
+}
+
+#masonryViewport .mason-block>.mason-content>.mason-card>.mason-card-title {
+    position: relative;
+}
+
+#masonryViewport .mason-block>.mason-content>.mason-card>.mason-card-data {
+    position: relative;
+}
+
+#playlistsKanban {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 3em;
+    bottom: 0px;
+}
+
+.module>header>h1 {
+    margin-top: 0px;
+}
+
+.module>header>h1.inactive>a {
+    color: gray;    
+}
+
+/*****************************
+ HTML 5 Hacks
+*****************************/
+
+/* Disable spin buttons no webkkit */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-spin-btn-container {
+    display: none;
+}
+
+/*****************************
+ Media Queries
+*****************************/
+
+/* LARGE SCREENS */
+@media screen and (min-width: 1371px) {
+}
+
+/* MEDIUM SCREENS */
+@media screen and (min-width: 650px) and (max-width: 1370px) {
+}
+
+/* SMALL SCREENS */
+@media screen and (max-width: 649px) {
+}
+
+
+/* Colors */
+
+div.card.asset-card-video {
+   background-color: #ecfeec !important;
+}
+div.card.asset-card-web {
+   background-color: #d9fafa !important;
+}
+div.card.asset-card-playlist {
+   background-color: #fefecc !important;
+}
+div.section.unpinned {
+   box-sizing: border-box;
+   background-color: #efecec !important;
+   box-shadow: 0px 0px 2px #000;
+}
+
+a[href^="https:"]
+{ text-decoration: underline; }
+a[href^="http://videos.sapo.pt"] {color:green !important;}
+a[href^="https://cld.pt"] {background-color: white; border-radius: 4px;!important;}
+
+i.icon-trash{ color: red; }
+i.icon-cog{ color: grey; }

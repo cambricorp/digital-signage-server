@@ -1,22 +1,41 @@
 digital-signage-server
 ======================
 
-The SAPO Digital Signage Server v2.0
+The SAPO Digital Signage Server v2.0, Codebits 2014 Edition
 
-# Status
+## Context:
 
-In a similar fashion to the [client][cl], the server code is being refactored piecemeal to take into account a number of fixes and enhancements done over the past few months.
+This is the server we used to run our digital signage solution during [Codebits 2014][cb].
 
-In effect, this will be the next production version - but the code isn't done yet.
+It was used to schedule hundreds of assets (including live data and video streams) across roughly 20 wide screen LCDs, wall projectors, etc. during the 3 days of the event, using [a custom built Android client][ac].
 
-# Requirements
+This repository contains (almost) all the source code we used, except for a private API to [MEO Kanal][mk] - nevertheless, you should be able to tweak it to get it running without the missing bits.
 
-Nothing, really. It depends on what you want to do with it - I recommend setting up a Postgres database for the back-end, even though this has been in production using SQLite for ages.
+In case you can't or are just curious about what it looked like, here's a screenshot we took during the event, with most of the assets loaded:
+
+<img src="https://raw.githubusercontent.com/sapo/digital-signage-server/codebits2014/about/screenshot.jpg">
+
+Managing assets and moving them between playlists is done entirey via drag-and-drop, using a Kanban component [Hugo Lima](https://github.com/hmiguellima) developed for the [Ink][ink] library (we'll be releasing that component as part of a single page application framework we're also working on).
+
+## Next Steps
+
+As to future developments, the `mqtt` branch contains a reboot of this solution to use [MQTT][mqtt] instead of HTTP polling in an attempt to provide real-time synchronization of multiple displays and integration with other hardware devices (such as lighting and projection controllers based on Arduino).
+
+## Credits:
+
+* [Rui Carmo](https://github.com/rcarmo) - initial implementation, specs, UX rants and random patching
+* [Hugo Lima](https://github.com/hmiguellima) - data models and Kanban-like front-end
+* [Bruno René Santos](https://github.com/brunorene) - back-end and playlist generation
 
 # LICENSING
 
-Everything on this source tree _except_ [Cork][c] (which regretfully is GPLv3) and [Beaker][b] (which has its own LICENSE file) is distributed under the MIT license.
+Everything on this source tree is distributed under the MIT license. Go forth and hack it to your contentment.
 
+[ink]: http://ink.sapo.pt
+[cb]: https://codebits.eu
+[ac]: https://github.com/sapo/android-signage-client
 [cl]: https://github.com/sapo/digital-signage-client
 [c]: https://github.com/FedericoCeratto/bottle-cork
 [b]: https://github.com/bbangert/beaker
+[mqtt]: http://mqtt.org
+[mk]: http://kanal.pt

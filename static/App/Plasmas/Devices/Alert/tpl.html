@@ -1,0 +1,29 @@
+<div class="ink-form">
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">Alert type:&nbsp;</label>
+        <div class="control large-40 medium-100 small-100">
+            <select data-bind="value: template, options: availableTemplates, optionsText: 'name', optionsCaption: 'Choose...'">
+            </select>            
+        </div>
+    </div>
+    
+    <div class="column-group control-group">
+        <label class="large-30 medium-100 small-100">Duration (secs):&nbsp;</label>
+        <div class="control large-40 medium-100 small-100">
+            <input type="number" data-bind="value: duration"></input>
+        </div>
+    </div>
+    
+    <!-- ko if: template -->
+        <!-- ko with: template -->
+            <!-- ko foreach: params -->
+                <div class="column-group control-group">
+                    <label class="large-30 medium-100 small-100"><span data-bind="text: name"></span>:</label>
+                    <div class="control large-65 medium-100 small-100">
+                        <input type="text" data-bind="value: $data.value"></input>
+                    </div>
+                </div>                
+            <!-- /ko -->
+        <!-- /ko -->
+    <!-- /ko -->
+</div>

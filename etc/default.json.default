@@ -1,0 +1,139 @@
+{
+    "reloader": true,
+    "debug": true,
+    "environment": "dev",
+    "admin": {
+        "alert_templates": [
+            {
+                "name": "QR Code",
+                "uri": "https://cld.pt/dl/download/sanitized-1632-4f34-a1f4-182ceaac07a9/Codebits%20Signage%20Assets/screens/qrcode/qrcode.html",
+                "params": [
+                    {
+                        "name": "QR Code URL",
+                        "type": "url",
+                        "default": "www.sapo.pt"
+                    },
+                    {
+                        "name": "Message",
+                        "type": "textarea"
+                    }
+                ]
+            },
+            {
+                "name": "Food ready",
+                "uri": "https://cld.pt/dl/download/sanitized-1632-4f34-a1f4-182ceaac07a9/Codebits%20Signage%20Assets/screens/food/food.html",
+                "params": [
+                    {
+                        "name": "Message",
+                        "type": "textarea"
+                    }
+                ]
+            }
+        ]
+    },
+    "http": {
+        "bind_address": "0.0.0.0",
+        "port": 8000,
+        "base_url": "http://localhost:8000",
+        "session_opts": {
+            "session.type": "file",
+            "session.data_dir": "./data",
+            "session.cookie_expires": 1800,
+            "session.auto": true
+        },
+        "server": "wsgiref",
+        "server_options": {}
+    },
+    "redis": {
+        "server": {
+            "host": "localhost",
+            "port": 6379
+        },
+        "#": "Dynamic configuration data we'll preload",
+        "preload": {
+            "config#max_data_points": 10000
+        },
+        "#": "Key namespaces",
+        "base": "signage#",
+        "data": {
+            "twitter": "twitter#query"
+        }
+    },
+    "#": "Celery task queue settings",
+    "celery": {
+        "broker_url"    : "redis://localhost:6379/0",
+        "result_backend": "redis://localhost:6379/0",
+        "rate_limit"    : "100"
+    },
+    "#": "Feed URLs for the Codebits site",
+    "feeds": {
+        "codebits": "https://codebits.eu/rss",
+        "sapo": "http://noticias.sapo.pt/rss/news/"
+    },
+    "#": "API keys for our Twitter search endpoint",
+    "twitter": {
+       "consumer_key"     : "<blank>",
+       "consumer_secret"  : "<blank>",
+       "access_key"       : "<blank>",
+       "access_secret"    : "<blank>",
+       "search_query"     : "@codebits OR #codebits OR #codebits2014",
+       "#": "Meo Arena, 4Km radius",
+       "_geocode"          : "38.7677517,-9.0970324,4km",
+       "geocode"          : null,
+       "#": "result limit",
+       "limit"            : 50,
+       "interval"         : 60,
+       "proxy_host"       : "proxy",
+       "proxy_port"       : 3128
+    },
+    "assetlist": {
+    	"interval": 10
+    },
+    "#": "(currently unused) settings for PhantomJS",
+    "phantom": {
+        "path": "/opt/phantomjs/bin/phantomjs",
+        "sizes": ["1280x720"],
+        "timeout": 15000
+    },
+    "#": "(currently unused) prebuilt command-line for ImageMagick",
+    "imagemagick": {
+        "convert": "/usr/bin/convert",
+        "args"   : "%s %s -quality 100 -strip -interlace Plane -bordercolor white -border 0x0 %s"
+    },
+    "#": "Logging settings dictionary -- do not insert pseudo-comments beyond this point",
+    "logging": {
+        "version": 1,
+        "formatters": {
+            "http": {
+                "format" : "localhost - - [%(asctime)s] %(process)d %(levelname)s %(message)s",
+                "datefmt": "%Y/%m/%d %H:%M:%S"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class"    : "logging.StreamHandler",
+                "formatter": "http",
+                "level"    : "DEBUG",
+                "stream"   : "ext://sys.stdout"
+            },
+            "pygments-http" : {
+                "class"    : "utils.logkit.PygmentsHandler",
+                "formatter": "http",
+                "level"    : "DEBUG",
+                "stream"   : "ext://sys.stderr",
+                "syntax"   : "guess"
+            }
+        },
+        "loggers": {
+            "peewee": {
+                "level"    : "WARN",
+                "handlers" : ["pygments-http"],
+                "propagate": false
+            }
+        },
+        "root": {
+            "level"   : "DEBUG",
+            "handlers": ["pygments-http"]
+        }
+    }
+}
