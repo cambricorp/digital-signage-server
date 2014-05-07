@@ -35,6 +35,24 @@
 }
 
 /***********************************
+    Toast notifications container
+************************************/
+
+#toastPanel {
+	position: absolute;
+	z-index: 999999;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+#toastPanel>div {
+	width: 60%;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+/***********************************
     Auto Complete
 ************************************/
 
@@ -78,13 +96,6 @@
     user-select: none;
 }
 
-.enable-text-selection, .enable-text-selection * {
-    -moz-user-select: auto ! important;
-    -webkit-user-select: auto ! important;
-    -ms-user-select: auto ! important;
-    user-select: auto ! important;
-}
-
 .draggable-container .draggable-selected {
 }
 
@@ -97,6 +108,14 @@
     -ms-user-select:none;
     user-select: none;
     pointer-events: none;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding: 1em;
+    white-space: nowrap;
+}
+
+.draggable-proxy .drag-affordance, .draggable-proxy .selected-icon, .draggable-proxy .edit-action {
+    display: none;
 }
 
 .drop-panel-active {

@@ -182,22 +182,6 @@ Ink.createModule('Ink.Data.DragDrop', '1', ['Ink.Data.Binding_1', 'Ink.UI.Dragga
             };
         },
         
-        _cloneStyle: function(src, dst, cloneAll, offset) {
-            if (cloneAll) {
-                dst.className           = src.className;
-                dst.style.borderWidth   = '0';
-                dst.style.padding       = '0';
-            }
-            
-            dst.style.position      = 'absolute';
-            dst.style.width         = inkEl.elementWidth(src) + 'px';
-            dst.style.height        = inkEl.elementHeight(src) + 'px';
-            dst.style.left          = (offset?inkEl.elementLeft(src)-offset(src).left:inkEl.elementLeft(src)) + 'px';
-            dst.style.top           = (offset?inkEl.elementTop(src)-offset(src).top:inkEl.elementTop(src)) + 'px';
-            dst.style.cssFloat      = inkCss.getStyle(src, 'float');
-            dst.style.display       = inkCss.getStyle(src, 'display');
-        },        
-        
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var binding = ko.unwrap(valueAccessor());
             var draggable;
@@ -262,6 +246,7 @@ Ink.createModule('Ink.Data.DragDrop', '1', ['Ink.Data.Binding_1', 'Ink.UI.Dragga
                 var draggableProxy;
                 var draggable;
                 var clonedEvent;
+                var localScroll;
 
                 draggableElement = inkEl.findUpwardsByClass(evt.target, 'drag-enabled');
                 
@@ -277,23 +262,57 @@ Ink.createModule('Ink.Data.DragDrop', '1', ['Ink.Data.Binding_1', 'Ink.UI.Dragga
                         }
                         
                         if (selectedData.length <= 1) {
-                            draggableProxy = draggableElement.cloneNode(true);
-                            ko.bindingHandlers.draggableContainer._cloneStyle(draggableElement, draggableProxy, true, offset);
+                            draggableProxy = inkEl.htmlToFragment('<div>'+draggableElement.innerHTML+'</div>').firstChild;
                             dataTransfer = data;
                         } else {
                             draggableProxy = inkEl.htmlToFragment('<div>Multile elements selected</div>').firstChild;
-                            ko.bindingHandlers.draggableContainer._cloneStyle(draggableElement, draggableProxy, false, offset);
                             dataTransfer = selectedData;
                         }
 
+                        draggableProxy.style.position = 'absolute';
+                        draggableProxy.style.width = inkEl.elementWidth(draggableElement) + 'px';
+                        draggableProxy.style.height = inkEl.elementHeight(draggableElement) + 'px';
+                        
+                        draggableProxy.style.left = (evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - (inkEl.elementWidth(draggableElement) / 2)) + 'px';
+                        draggableProxy.style.top = (evt.clientY + document.body.scrollTop + document.documentElement.scrollTop - (inkEl.elementHeight(draggableElement) / 2)) + 'px';
+                        
                         inkCss.addClassName(draggableProxy, 'draggable-proxy');
                         
-                        draggableProxy=element.appendChild(draggableProxy);
+                        draggableProxy=document.body.appendChild(draggableProxy);
+                        
                         clonedEvent = ko.bindingHandlers.draggableContainer._cloneEvent(evt);
                         clonedEvent.target=draggableProxy;
                         
                         dropSuccess = false;
                         draggable=new Draggable(draggableProxy, {cursor: 'move', onEnd: ko.bindingHandlers.draggableContainer._handleDrop.bind(this, binding)});
+                        
+                        // Patch draggable to support container's horizontal scroll offsets
+                        draggable._getCoords = function(e) {
+                            var node = e.target;
+                            var leftScroll = 0;
+                            var ps = [inkEl.scrollWidth(), inkEl.scrollHeight()];
+                            var coords;
+
+                            
+                            if (e.type=='mouseup') {
+                                while ( (typeof node.scrollLeft == 'number') && (leftScroll==0) ) {
+                                    leftScroll += node.scrollLeft;
+                                    node = node.parentNode;
+                                }
+
+                                ps[0] = leftScroll;
+                            }
+                            
+                            
+                            coords = {
+                                    x: (e.touches ? e.touches[0].clientX : e.clientX) + ps[0],
+                                    y: (e.touches ? e.touches[0].clientY : e.clientY) + ps[1]
+                            };
+                            
+                            return coords; 
+                        };
+
+                        
                         draggable.handlers.start(clonedEvent);
                         ko.bindingHandlers.draggableContainer._draggable=draggable;
                         

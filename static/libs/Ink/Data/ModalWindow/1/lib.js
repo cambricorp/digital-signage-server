@@ -12,7 +12,6 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
         this.moduleName = 'Ink.Data.ModalWindow';
         this.modal = undefined;
         this.title = options.title;
-        this.modalId = options.modalId;
         this.contentModule = options.contentModule;
         this.contentReady = false;
         this.modalEl = undefined;
@@ -26,9 +25,11 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
             return ko.unwrap(options.confirmCaption) || 'Confirm';
         });
         this.taskButtons = ko.observableArray();
-        
+
+        // Options passed to the content module
         this.moduleData = {
             confirmHandler: undefined, 
+            cancelHandler: undefined, 
             confirmDisabled: ko.observable(false), 
             params: undefined, 
             hide: this.hide.bind(this) 
@@ -40,7 +41,7 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
 
         this.notifyContentReady = function() {
             self.contentReady = true;
-        }
+        };
 
         options.parent['modal'] = {
             show: function(params) {
@@ -50,13 +51,20 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
     };
 
     Module.prototype.confirm = function() {
-        if (this.moduleData.confirmHandler && (typeof this.moduleData.confirmHandler == 'function'))
+        if (this.moduleData.confirmHandler && (typeof this.moduleData.confirmHandler == 'function')) {
             this.moduleData.confirmHandler();
-    }
+        }
+    };
+    
+    Module.prototype.cancel = function() {
+        if (this.moduleData.params.cancelCallback && (typeof this.moduleData.params.cancelCallback == 'function')) {
+            this.moduleData.params.cancelCallback();
+        }
+    };
     
     Module.prototype.hide = function() {
         this.modal.dismiss();
-    }
+    };
     
     Module.prototype._hideModal = function() {
         var self=this;
@@ -77,12 +85,15 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
                 self.modalEl.parentNode.removeAttribute('data-instance');
             }, 400);
         }
-    }
+    };
+    
+    Module.prototype.afterRender = function(elements) {
+    	this.modalEl = Selector.select(".ink-modal", elements[0])[0];
+    };
 
     Module.prototype.show = function(params) {
         var content;
         
-        this.modalEl = Selector.select("#"+this.modalId+" .ink-modal")[0];
         this.modal = new Ink.UI.Modal(this.modalEl, {onDismiss: this._hideModal.bind(this)});
         this.modal.open();
         this.taskButtons(params.taskButtons || []);
@@ -103,11 +114,11 @@ Ink.createModule('Ink.Data.ModalWindow', '1', ['Ink.Data.Binding_1', 'Ink.Dom.Se
             content.scrollTop = 0;
             content.style.overflowY = 'auto';
         }, 250);
-    }
+    };
     
     Module.prototype.handleTask = function(handler) {
         handler.call(this, this);
-    }
+    };
 
     return Module;
 });
