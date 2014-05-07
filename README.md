@@ -15,7 +15,7 @@ In case you can't or are just curious about what it looked like, here's a screen
 
 <img src="https://raw.githubusercontent.com/sapo/digital-signage-server/codebits2014/about/screenshot.jpg">
 
-Managing assets and moving them between playlists is done entirey via drag-and-drop, using a Kanban component [Hugo Lima](https://github.com/hmiguellima) developed for the [Ink][ink] library (we'll be releasing that component as part of a single page application framework we're also working on).
+Managing assets and moving them between playlists is done entirely via drag-and-drop, using a Kanban component [Hugo Lima](https://github.com/hmiguellima) developed for the [Pink][pink] single-page web app framework (this repository includes a deployment snapshot of [Pink][pink]).
 
 ## Next Steps
 
@@ -39,3 +39,4 @@ Everything on this source tree is distributed under the MIT license. Go forth an
 [b]: https://github.com/bbangert/beaker
 [mqtt]: http://mqtt.org
 [mk]: http://kanal.pt
+[pink]: http://github.com/sapo/pink
