@@ -27,6 +27,31 @@ As to future developments, the `mqtt` branch contains a reboot of this solution 
 * [Hugo Lima](https://github.com/hmiguellima) - data models and Kanban-like front-end
 * [Bruno René Santos](https://github.com/brunorene) - back-end and playlist generation
 
+# How to run
+
+There is a Vagrantfile, so you can get it more or less up and running in
+Vagrant using 'vagrant up'.  Another, more manual way follows.
+
+You should set up a virtualenv to install the required dependencies. And you
+need to set up some required config files for the app to start.
+
+    virtualenv env/
+    pip install -r requirements.txt
+
+    cp etc/users.json.default etc/users.json
+    cp etc/default.json.default etc/default.json
+
+    python manage.py add-user <youruser> <yourpassword>
+
+You also need to install and start redis at this point.  After you've done
+that, you can easily get the web service up and running:
+
+    python app.py
+
+You probably also need to start the celery workers, and of course you'd need
+the clients for showing.  But this should get you started.
+
+
 # LICENSING
 
 Everything on this source tree is distributed under the MIT license. Go forth and hack it to your contentment.

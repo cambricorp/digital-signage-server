@@ -14,6 +14,7 @@ log = logging.getLogger()
 from collections import deque
 
 from pygments import highlight
+from pygments.util import ClassNotFound
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.formatters import TerminalFormatter, Terminal256Formatter, NullFormatter
 
@@ -78,8 +79,12 @@ class PygmentsHandler(logging.StreamHandler):
         msg = self.format(record)
         # Note that the guessing also applies to any log formatting
         if self.lexer == guess_lexer:
-            lexer = guess_lexer(msg)
-            self.stream.write(highlight(msg,lexer,self.pformatter))
+            try:
+                lexer = guess_lexer(msg)
+                formatted_msg = highlight(msg, lexer, self.pformatter)
+            except ClassNotFound:
+                formatted_msg = msg
+            self.stream.write(formatted_msg)
             return
         self.stream.write(highlight(msg,self.lexer,self.pformatter))
 
