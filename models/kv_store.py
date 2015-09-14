@@ -10,19 +10,26 @@ All inputs/outputs are Plain Old Python Objects (POPOs)
 Created by: Hugo Lima (https://github.com/hmiguellima)
 """
 
-import os, sys, logging, datetime
-from redis import StrictRedis
-from config import settings
+import logging
+import datetime
 from json import loads, dumps
+
+from redis import StrictRedis
+
+from config import settings
 from utils.core import *
 from consts import *
 
+
 log = logging.getLogger()
+
 
 class KeyValueStore(object):
     def __init__(self):
-        self.data = StrictRedis(host = settings.redis.server.host, port = settings.redis.server.port)
-        log.debug("Connected to REDIS(%s, %s)" % (settings.redis.server.host, settings.redis.server.port))
+        self.data = StrictRedis(host=settings.redis.server.host,
+                                port=settings.redis.server.port)
+        log.debug("Connected to REDIS(%s, %s)" % (
+            settings.redis.server.host, settings.redis.server.port))
 
     def _get_value(self, key):
         return self.data.get(key)
@@ -45,13 +52,17 @@ class KeyValueStore(object):
         return Struct(loads(self._get_value(model_pf+model_id)))
 
     def _set_model(self, model_pf, model_id, model_value, seconds=None):
-        self._set_value(model_pf+model_id, dumps(model_value, default=datetime_serializer), seconds)
+        self._set_value(model_pf + model_id,
+                        dumps(model_value, default=datetime_serializer),
+                        seconds)
 
     def _list_model(self, model_pf):
-        return [Struct(loads(self._get_value(key))) for key in self._search_keys(model_pf+'*')]
+        return [Struct(loads(self._get_value(key))) for
+                key in self._search_keys(model_pf+'*')]
 
     def _get_list_models(self, list_pf, list_id):
-        return [Struct(loads(value)) for value in self.data.lrange(list_pf+list_id, 0, -1)]
+        return [Struct(loads(value)) for
+                value in self.data.lrange(list_pf+list_id, 0, -1)]
 
     def _get_list_scalars(self, list_pf, list_id):
         return [value for value in self.data.lrange(list_pf+list_id, 0, -1)]
@@ -161,7 +172,3 @@ class KeyValueStore(object):
 
     def set_meolist(self, playlist_name, index, seconds, meolist):
         self._set_model(MEOKANAL_PF, playlist_name.replace(":","") + "_" + str(index), meolist, seconds)
-
-
-
-

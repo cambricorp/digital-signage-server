@@ -7,12 +7,17 @@ Description: Core utility functions
 License: MIT (see LICENSE.md for details)
 """
 
-import os, sys, logging
-import fnmatch, json, datetime
+import datetime
+import json
+import logging
+import os
+import sys
+
+from filekit import path_for
+
 
 log = logging.getLogger()
 
-from filekit import path_for
 
 class Singleton(type):
     """An implemetation of the Singleton pattern (use as metaclass)"""
@@ -92,7 +97,9 @@ def tb():
     """Return a concise traceback summary"""
 
     etype, value, tb = sys.exc_info()
-    return "%s: %s (%s@%s:%d)" % (etype.__name__, value, tb.tb_frame.f_code.co_name, os.path.basename(tb.tb_frame.f_code.co_filename), tb.tb_lineno)
+    return "%s: %s (%s@%s:%d)" % (
+        etype.__name__, value, tb.tb_frame.f_code.co_name,
+        os.path.basename(tb.tb_frame.f_code.co_filename), tb.tb_lineno)
 
 
 def datetime_serializer(obj):
